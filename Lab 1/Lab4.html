@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Canvas Animation</title>
+  <style>
+    canvas {
+      border: 3px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="can" width="500" height="500"></canvas>
+  <script>
+    const canvas = document.getElementById('can');
+    const ctx = canvas.getContext('2d');
+
+    const start = { x: 0, y: 0 };
+    const end = { x: 500, y: 500};
+
+    let currentPosition = { x: 0, y: 0 };
+    const speed = 1.8;
+
+    function drawLine() {
+      ctx.clearRect(0, 0, 500, 500);
+      ctx.strokeStyle = 'red';
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(currentPosition.x, currentPosition.y);
+      ctx.stroke();
+
+      currentPosition.x += speed;
+      currentPosition.y += speed;
+
+      if (currentPosition.x <= end.x && currentPosition.y <= end.y) {
+        requestAnimationFrame(drawLine);
+      } else {
+        alert("animation end");
+      }
+    }
+
+    drawLine();
+  </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#colors{
+    width: 600px;
+    height: 300px;
+    margin-top: 50px;
+    margin-left: 20px;
+    padding: 40px
+}
+.container{
+    position: absolute;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    
+}
+.vid{
+    width: 100%;
+}
+#bar{
+    display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      margin: 10px auto;
+      margin-top: 0;
+}
+.first{
+    display: flex;
+    justify-content: center;
+}
+#play{
+    width: 50px;
+}
+#stop{
+    width: 50px;
+}
+#prev{
+    width: 50px;
+}
+#next{
+    width: 50px;
+}
+#back{
+    width: 40px;
+}
+#forward{
+    width: 40px;
+}
+#mute{
+    width: 50px;
+}
+.second #soundRange{
+    margin-right: 30px;
+}
+.second span{
+    font-size: large;
+    font-weight: bold;
+}
+.second #speedRange{
+    margin-right: 70px;
+}
+#fullScreen{
+    width: 100px;
+    height: 40px;
+}
+    </style>
+  </head>
+  <body>
+    <div id="colors">
+        <h1>Change the Background Color:</h1>
+        <br><br>
+        <span>Red</span>
+        <input type="range" id="red" min="0" max="255" value="255">
+        <br><br><br><br><br><br>
+        <span>Green</span>
+        <input type="range" id="green" min="0" max="255" value="255">
+        <br><br><br><br><br><br>
+        <span>Blue</span>
+        <input type="range" id="blue" min="0" max="255" value="255">
+    </div>
+    <div class="container">
+      <div class="vid">
+        <video src="vid1.mp4" id="vid" ontimeupdate=""></video>
+      </div>
+      <div class="controls">
+        <input id="bar" type="range" min="0" value="0" />
+        <div class="first">
+          <button id="play">Play</button>
+          <button id="stop">Stop</button>
+          <button id="prev"><<</button>
+          <button id="back"><</button>
+          <button id="forward">></button>
+          <button id="next">>></button>
+          <button id="mute">Mute</button>
+        </div>
+        <br />
+        <div class="second">
+            <span>Volume</span>
+          <input id="soundRange"type="range"min="0"max="1"step="0.05"value="1"/>
+          <span>Speed</span>
+          <input id="speedRange"type="range"min="0.5"max="2"step="0.1"value="1"/>
+          <button id="fullScreen">Full Screen</button>
+        </div>
+      </div>
+    </div>
+    <script>
+
+    const red = document.getElementById('red');
+    const green = document.getElementById('green');
+    const blue = document.getElementById('blue');
+
+    function updateColor() {
+      const redValue = red.value;
+      const greenValue = green.value;
+      const blueValue = blue.value;
+      const rgbColor = `rgb(${redValue}, ${greenValue}, ${blueValue})`;
+      document.body.style.backgroundColor = rgbColor;
+    }
+
+    red.addEventListener('input', updateColor);
+    green.addEventListener('input', updateColor);
+    blue.addEventListener('input', updateColor);
+
+    updateColor();
+
+
+      const myVideo = document.getElementById("vid");
+      const seekBar = document.getElementById("bar");
+      const play = document.getElementById("play");
+      const pause = document.getElementById("stop");
+      const prev = document.getElementById("prev");
+      const back = document.getElementById("back");
+      const forward = document.getElementById("forward");
+      const next = document.getElementById("next");
+      const mute = document.getElementById("mute");
+      const soundRange = document.getElementById("soundRange");
+      const speedRange = document.getElementById("speedRange");
+      const fullScreen = document.getElementById("fullScreen");
+
+      play.addEventListener("click", function () {
+        myVideo.play();
+      });
+
+      pause.addEventListener("click", function () {
+        myVideo.pause();
+      });
+
+      prev.addEventListener("click", function () {
+        myVideo.currentTime = 0;
+      });
+
+      back.addEventListener("click", function () {
+        myVideo.currentTime -= 10;
+      });
+
+      forward.addEventListener("click", function () {
+        myVideo.currentTime += 10;
+      });
+
+      next.addEventListener("click", function () {
+        myVideo.currentTime = myVideo.duration;
+      });
+
+      mute.addEventListener("click", function () {
+        myVideo.muted = !myVideo.muted;
+      });
+
+      soundRange.addEventListener("input", function () {
+        myVideo.volume = soundRange.value;
+      });
+
+      speedRange.addEventListener("input", function () {
+        myVideo.playbackRate = speedRange.value;
+      });
+
+      fullScreen.addEventListener("click", function () {
+        myVideo.requestFullscreen();
+      });
+
+      seekBar.addEventListener("input", function () {
+        const seekTo = myVideo.duration * (seekBar.value / 100);
+        myVideo.currentTime = seekTo;
+      });
+
+      myVideo.addEventListener("timeupdate", function () {
+        const currentTime = myVideo.currentTime;
+        const duration = myVideo.duration;
+        seekBar.value = (currentTime / duration) * 100 || 0;
+      });
+    </script>
+  </body>
+</html>
