@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            border: 2px solid black;
+            width: 30%;
+            position: relative;
+            padding: 20px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            height: 30px;
+            border: 1px solid black;
+            margin-bottom: 10px;
+        }
+
+        input:focus {
+            border: 1px solid blue;
+        }
+
+        form input:invalid {
+            border: 1px solid red;
+        }
+
+        form input:valid {
+            border: 1px solid green !important;
+        }
+
+        .Nerror,
+        .Aerror {
+            padding: .375rem 0.75rem;
+            color: red;
+            display: none;
+        }
+
+        #user:invalid:not(:placeholder-shown)~.Nerror,
+        #age:invalid:not(:placeholder-shown)~.Aerror {
+            display: block;
+        }
+
+        button {
+            width: calc(100% - 20px);
+            height: 30px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="myform">
+        <label for="user">User Name</label>
+        <input type="text" id="user" placeholder="user name" pattern="^[a-z]{3,9}$" required>
+        <span class="Nerror">Name should be at least 3 letters</span>
+        <label for="age">User Age </label>
+        <input type="text" id="age" placeholder="Age" pattern="^(1[8-9]|[2-9][0-9])$" required>
+        <span class="Aerror">The age should be between 18-99</span>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        let add = document.getElementById("myform");
+        let userName = document.getElementById("user");
+        let age = document.getElementById("age");
+        let users = [];
+
+        if (localStorage.getItem("users") !== null && localStorage.getItem("users") !== "[]") {
+            users = JSON.parse(localStorage.getItem("users"));
+        }
+
+        add.addEventListener("submit", function (e) {
+            addUser();
+            e.preventDefault();
+        });
+
+        function addUser() {
+            let user = {
+                name: userName.value,
+                age: age.value,
+            };
+
+            users.push(user);
+            console.log(users);
+            localStorage.setItem("users", JSON.stringify(users));
+            location.assign("./table.html");
+        }
+    </script>
+</body>
+
+</html>

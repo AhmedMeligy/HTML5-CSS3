@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="getloc()">Get your location</button>
+    <button onclick="clearWatch()">Clear</button>
+
+    <script>
+        let watchId;
+        let mapWindow;
+        function getloc(){
+            watchId = navigator.geolocation.watchPosition(showPos);
+        }
+        function showPos(position){
+            let lat = position.coords.latitude;
+            let long = position.coords.longitude;
+            let mapUrl = "http://maps.google.com/maps?q=" + lat + ',' + long;
+
+            if (mapWindow) {
+                mapWindow.location.href = mapUrl;
+            } else {
+                mapWindow = window.open(mapUrl, "_blank", "width=600,height=400");
+            }
+        }
+        function clearWatch() {
+            if (watchId) {
+                navigator.geolocation.clearWatch(watchId);
+                alert("tracking stopped")
+            }
+        }
+    </script>
+</body>
+</html>

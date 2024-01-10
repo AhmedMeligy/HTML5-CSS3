@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button id="sum1">calc sum1</button>
+    <button id="sum2">calc sum2</button>
+    <button id="bg">change bg</button>
+
+    <script>
+        let worker = new Worker("worker.js");
+        let sum1 = document.getElementById("sum1");
+        let sum2 =document.getElementById("sum2");
+        let bg = document.getElementById("bg");
+        bg.onclick = function () {
+            if (document.body.style.background !== 'green') {
+                document.body.style.background = "green";
+            } else {
+                document.body.style.background = "blue";
+            }
+        }
+        sum1.onclick = function(message){
+            worker.postMessage("calcSum1");
+        }
+        sum2.onclick = function(message){
+            worker.postMessage("calcSum2");
+        }
+        worker.onmessage = function (message) {
+            alert(message.data);
+        }
+    </script>
+</body>
+</html>
